@@ -1,0 +1,48 @@
+.header-aside-backgroud {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    height: 100vh;
+    background-color: white;
+}
+
+.header-aside-backgroud::-webkit-scrollbar {
+    display: none;
+}
+
+.HeaderAsideTop {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.HeaderAsideClose {
+    font-size: 40px;
+    position: fixed;
+    margin-left: 305px;
+}
+
+.subHeader-aside-item {
+    background-color: #ffffff;
+    padding: 10px;
+    cursor: pointer;
+    padding-left: 30px;
+}
+
+.subHeader-aside-item-icon {
+    margin-right: 10px;
+}
+
+.subHeader-item {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 25px;
+}
+
+.subHeader-item-icon {
+    margin-right: 10px;
+}
