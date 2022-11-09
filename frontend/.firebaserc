@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "default": "google-book",
+    "dev": "google-book",
+    "prod": "google-book"
+  },
+  "targets": {
+    "google-book": {
+      "hosting": {
+        "google-book-site": [
+          "google-book-site"
+        ]
+      }
+    }
+  }
+}

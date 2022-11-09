@@ -1,0 +1,91 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-regular-svg-icons": "^5.15.4",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.16",
+    "@material-ui/core": "^4.12.4",
+    "@mui/icons-material": "^5.6.1",
+    "@mui/material": "^5.5.3",
+    "@mui/x-data-grid": "^5.8.0",
+    "@mui/x-date-pickers": "^5.0.0-alpha.0",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/jquery": "^3.5.10",
+    "@types/jquery-mask-plugin": "^1.14.4",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-lottie": "^1.2.6",
+    "@wojtekmaj/react-daterange-picker": "^3.4.0",
+    "axios": "^0.23.0",
+    "date-fns": "^2.28.0",
+    "express": "^4.17.1",
+    "firebase": "^9.6.7",
+    "firebase-admin": "^10.0.2",
+    "form-data": "^4.0.0",
+    "framer-motion": "^4.1.17",
+    "fs": "0.0.1-security",
+    "google-auth-library": "^7.14.0",
+    "gsap": "^3.8.0",
+    "jquery": "^3.6.0",
+    "jquery-mask-plugin": "^1.14.16",
+    "lottie-web": "^5.8.1",
+    "moment": "^2.29.1",
+    "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
+    "react-calendar": "^3.7.0",
+    "react-circular-progressbar": "^2.0.4",
+    "react-device-detect": "^2.2.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-lottie": "^1.2.3",
+    "react-rating": "^2.0.5",
+    "react-redux": "^7.2.6",
+    "react-router-dom": "^6.2.1",
+    "react-scripts": "4.0.3",
+    "react-select": "^5.2.1",
+    "react-toastify": "^8.2.0",
+    "redux": "^4.1.1",
+    "redux-thunk": "^2.3.0",
+    "typescript": "^4.5.4",
+    "web-vitals": "^1.0.1"
+  },
+  "scripts": {
+    "cleanBuild": "rimraf ./build/*",
+    "start": "react-scripts start",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "build:dev": "npm run cleanBuild && set \"GENERATE_SOURCEMAP=false\" && firebase deploy -f --project google-book --only hosting:google-book-site",
+    "build:prod": "npm run cleanBuild && set \"GENERATE_SOURCEMAP=false\" && firebase deploy -f --project google-book --only hosting:google-book-site",
+    "build:staging": "npm run cleanBuild && set \"GENERATE_SOURCEMAP=false\" && firebase deploy -f --project google-book --only hosting:google-book-site"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/react-beautiful-dnd": "^13.1.2",
+    "env-cmd": "^10.1.0"
+  }
+}
