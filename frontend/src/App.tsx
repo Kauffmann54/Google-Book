@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import HeaderAside from './components/header/HeaderAside';
 
@@ -35,6 +36,9 @@ function App() {
           } />
         </Routes>
       </main>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 }
