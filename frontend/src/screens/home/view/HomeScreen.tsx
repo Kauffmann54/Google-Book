@@ -21,6 +21,7 @@ import CategoryComponent from '../../../components/categoryComponent/CategoryCom
 import Checkbox from '@mui/material/Checkbox';
 import { FormGroup, FormControlLabel } from '@mui/material';
 import ComboBox, { ComboBoxValueProps } from '../../../components/comboBox/ComboBox';
+import BookComponent from '../../../components/bookComponent/BookComponent';
 
 export default function HomeScreen() {
   const categories = useState<HomeCategoryModel[]>([
@@ -138,6 +139,9 @@ export default function HomeScreen() {
                                 setOrderBySelected(value);
                               }} />
                         </div>
+                      </div>
+                      <div>
+                        <BookComponent />
                       </div>
                   </div>
                   

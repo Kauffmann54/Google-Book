@@ -2,6 +2,10 @@
     color: #181818;
 }
 
+.primaryTextDark {
+    color: #FFFFFF;
+}
+
 .secondaryTextLight {
     color: #9D9C9C;
 }
@@ -12,6 +16,10 @@
 
 .primaryColor {
     color: #0088ff;
+}
+
+.primaryColor_background {
+    background: #008EF4;
 }
 
 .success {

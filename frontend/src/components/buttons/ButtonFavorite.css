@@ -1,0 +1,23 @@
+.button-background-favorite {
+    border: 1px solid #008EF4;
+    box-sizing: border-box;
+    border-radius: 3px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 7px;
+    padding-right: 7px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.button-background-favorite:hover {
+    border: 1px solid #22a3ff;
+    background-color: #22a3ff;
+    color: #fff;
+}
+
+.button-text-favorite {
+    margin-left: 4px;
+    cursor: pointer;
+}

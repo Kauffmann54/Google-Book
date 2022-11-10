@@ -1,0 +1,26 @@
+.rating-view {
+    display: flex;
+    align-items: center;
+}
+
+.rating-small {
+    display: flex;
+    font-size: 12px;
+    margin-right: 1.5px;
+}
+
+.rating-medium {
+    display: flex;
+    font-size: 15px;
+    margin-right: 1.5px;
+}
+
+.rating-big {
+    display: flex;
+    font-size: 18px;
+    margin-right: 1.5px;
+}
+
+.rating-text {
+    margin-left: 4.5px;
+}

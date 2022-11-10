@@ -1,0 +1,125 @@
+.buttonBackgroundPrimary {
+    border-radius: 8px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.buttonBackground {
+    width: 100%;
+    border: none;
+}
+
+.buttonBackgroundPrimary:hover {
+    background-color: #22a3ff;
+}
+
+.buttonBackgroundPrimary-disabled {
+    background: #9D9C9C;
+    border-radius: 8px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttonBackgroundSecondary {
+    border: 1px solid #008EF4;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 8px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.buttonBackgroundSecondary:hover {
+    border: 1px solid #22a3ff;
+}
+
+.buttonBackgroundSecondary:hover .buttonText {
+    color: #22a3ff;
+}
+
+.buttonBackgroundSecondary-disabled {
+    border: 1px solid #9D9C9C;
+    box-sizing: border-box;
+    border-radius: 8px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttonBackgroundTertiary {
+    background: transparent;
+    border-radius: 8px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.buttonBackgroundTertiary:hover .buttonText {
+    color: #22a3ff;
+}
+
+.buttonBackgroundTertiary-disabled {
+    background: transparent;
+    border-radius: 8px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+}
+
+.buttonText-enabled {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    margin-left: 4px;
+    margin-right: 4px;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.buttonText-disabled {
+    cursor: default;
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
