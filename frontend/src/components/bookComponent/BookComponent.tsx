@@ -1,17 +1,23 @@
 import React from 'react'
+import { BookModel } from '../../backend/models/book/bookResponseModel'
 import Button from '../buttons/Button'
 import ButtonFavorite from '../buttons/ButtonFavorite'
 import RatingComponent, { RatingSizeProps } from '../rating/RatingComponent'
 import './BookComponent.css'
+import noBookImage from '../../assets/no-book.png';
 
-export default function BookComponent() {
+interface BookComponentProps {
+    book: BookModel;
+}
+
+export default function BookComponent(props: BookComponentProps) {
   return (
     <div className='book-component-background'>
-        <img src='http://books.google.com/books/content?id=H3KNEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api' className='book-component-image' />
-        <label className='font-custom primaryTextLight book-component-title'>Lord of the Flies Lord of the Flies</label>
+        <img src={props.book.volumeInfo.imageLinks ? props.book.volumeInfo.imageLinks.thumbnail : noBookImage} alt={props.book.volumeInfo.title} className={`${props.book.volumeInfo.imageLinks ? 'book-component-image' : 'book-component-no-image'}`} />
+        <label className='font-custom primaryTextLight book-component-title'>{props.book.volumeInfo.title}</label>
         <div className='book-component-second-line'>
             <RatingComponent 
-                rating={5} 
+                rating={props.book.volumeInfo.averageRating} 
                 ratingSize={RatingSizeProps.Small} />
             <ButtonFavorite 
                 isFavorite={false} 

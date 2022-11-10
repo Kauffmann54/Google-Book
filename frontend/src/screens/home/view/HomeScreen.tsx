@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import PageAnimation from '../../../components/animation/pageAnimation.js'
 import SearchBar from '../../../components/searchBar/SearchBar'
 import './HomeScreen.css'
@@ -22,8 +22,14 @@ import Checkbox from '@mui/material/Checkbox';
 import { FormGroup, FormControlLabel } from '@mui/material';
 import ComboBox, { ComboBoxValueProps } from '../../../components/comboBox/ComboBox';
 import BookComponent from '../../../components/bookComponent/BookComponent';
+import { useTypedSelector } from '../../../hooks/useTypeSelector.js';
+import { useDispatch } from 'react-redux';
+import { fetchBooksByQuery } from '../../../backend/actions/bookActions';
+import { motion } from 'framer-motion';
 
 export default function HomeScreen() {
+  const dispatch = useDispatch();
+
   const categories = useState<HomeCategoryModel[]>([
     new HomeCategoryModel('Aventura', AdventureImage, 'Adventure'),
     new HomeCategoryModel('Biografia', BiographyImage, 'Biography'),
@@ -65,10 +71,20 @@ export default function HomeScreen() {
     new ComboBoxValueProps('magazines', 'Revistas'),
   ]);  
   const [printTypeSelected, setPrintTypeSelected] = useState<ComboBoxValueProps>(new ComboBoxValueProps('all', 'Relevância'));
+  const [searchBarText, setSearchBarText] = useState<string>('');
+
+  const booksQuery = useTypedSelector(state => state.booksQuery);
+  const { data: booksQueryData, error: booksQueryError, loading: booksQueryLoading } = booksQuery;
 
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (searchBarText !== '') {
+      dispatch(fetchBooksByQuery(searchBarText));
+    }
+  }, [dispatch, searchBarText]);
 
   return (
     <PageAnimation>
@@ -128,7 +144,10 @@ export default function HomeScreen() {
                   <div className='home-screen-books-body'>
                       <div className='home-screen-books-order-top'>
                         <div className='home-screen-books-order-search-bar'>
-                          <SearchBar />
+                          <SearchBar 
+                          onSearch={(text: string) => {
+                            setSearchBarText(text);
+                          }} />
                         </div>
                         <div className='home-screen-books-order-combobox'>
                           <ComboBox 
@@ -140,8 +159,24 @@ export default function HomeScreen() {
                               }} />
                         </div>
                       </div>
-                      <div>
-                        <BookComponent />
+                      <div className='home-screen-books-list'>
+                        { booksQueryData?.items?.map((book, index) => {
+                          return (
+                            <motion.div 
+                                  key={`animation-product-${index}`}
+                                  initial={{ opacity: index <= 15 ? 0 : 1, scale: index <= 15 ? 0.9 : 1 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  exit={{ opacity: 0 }}
+                                  transition={{
+                                  duration: index <= 15 ? (index + 1) * (index <= 4 ? 0.2 : 0.1) : 0,
+                                  ease: "easeInOut",
+                                  }}>
+                              <div className='home-screen-books-list-item' key={`book-${book.id}`}>
+                                <BookComponent book={book} />
+                              </div>
+                            </motion.div>
+                          )
+                        })}
                       </div>
                   </div>
                   

@@ -36,10 +36,10 @@ function App() {
             <HomeScreen />
           } />
         </Routes>
+        <footer>
+          <Footer />
+        </footer>
       </main>
-      <footer>
-        <Footer />
-      </footer>
     </div>
   );
 }
