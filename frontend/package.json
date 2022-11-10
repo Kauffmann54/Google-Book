@@ -34,6 +34,7 @@
     "fs": "0.0.1-security",
     "google-auth-library": "^7.14.0",
     "gsap": "^3.8.0",
+    "iso-639-1": "^2.1.15",
     "jquery": "^3.6.0",
     "jquery-mask-plugin": "^1.14.16",
     "lottie-web": "^5.8.1",

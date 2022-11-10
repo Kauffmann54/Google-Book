@@ -1,0 +1,194 @@
+.alert-modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.alert-modal-container {
+    position: fixed;
+    width: 400px;
+    min-height: 350px;
+    border-radius: 15px;
+    z-index: 9999;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 5px 0px 50px rgba(0, 0, 0, 0.5);
+}
+
+.alert-modal-container-success {
+    background-color: rgb(0, 160, 8);
+}
+
+.alert-modal-container-error {
+    background-color: rgb(219, 3, 3);
+}
+
+.alert-modal-container-warning {
+    background-color: rgb(255, 196, 0);
+}
+
+.alert-modal-content {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.alert-modal-content-data {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.alert-modal-icon-div {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px
+}
+
+.alert-modal-icon {
+    width: 100px;
+    height: 100px;
+    color: white;
+}
+
+.alert-modal-title {
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    white-space: pre-wrap;
+}
+
+.alert-modal-message {
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    white-space: pre-wrap;
+}
+
+.alert-modal-button-div {
+    background-color: white;
+    margin-top: auto;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: -1px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+}
+
+.alert-modal-button-div-left {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex: 1;
+}
+
+.alert-modal-button-div-secondary {
+    display: flex;
+    flex: 1;
+}
+
+.alert-modal-button-divider {
+    width: 1px;
+    height: 100%;
+    background-color: rgb(190, 190, 190);
+} 
+
+.alert-modal-button-div-right {
+    margin-left: auto;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex: 1;
+}
+
+.alert-modal-button-label {
+    text-align: center;
+    cursor: pointer;
+    white-space: pre-wrap;
+}
+
+/* Alert modal animation */
+.alert-modal-background-active {
+    animation-name: alertModalInAnimation;
+    animation-duration: 0.5s;
+}
+
+.alert-modal-background-disabled {
+    animation-name: alertModalOutAnimation;
+    animation-duration: 0.5s;
+}
+
+@keyframes alertModalInAnimation {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
+
+@keyframes alertModalOutAnimation {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+}
+
+.alert-modal-content-active {
+    animation-name: alertModalContentInAnimation;
+    animation-duration: 0.5s;
+}
+
+.alert-modal-content-disabled {
+    animation-name: alertModalContentOutAnimation;
+    animation-duration: 0.5s;
+}
+
+@keyframes alertModalContentInAnimation {
+    from {
+      -webkit-transform: translateY(100%);
+    }
+    to {
+      -webkit-transform: translateY(0px);
+    }
+}
+
+@keyframes alertModalContentOutAnimation {
+    from {
+      -webkit-transform: translateY(0px);
+    }
+    to {
+      -webkit-transform: translateY(100%);
+    }
+}
+
+@media (max-width: 400px) {
+    .alert-modal-container {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

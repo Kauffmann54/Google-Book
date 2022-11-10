@@ -19,13 +19,21 @@ import RomanceImage from '../../../assets/categoriesIcons/Romance.png';
 import { HomeCategoryModel } from '../model/HomeCategoryModel';
 import CategoryComponent from '../../../components/categoryComponent/CategoryComponent';
 import Checkbox from '@mui/material/Checkbox';
-import { FormGroup, FormControlLabel } from '@mui/material';
+import { FormGroup, FormControlLabel, Pagination } from '@mui/material';
 import ComboBox, { ComboBoxValueProps } from '../../../components/comboBox/ComboBox';
 import BookComponent from '../../../components/bookComponent/BookComponent';
 import { useTypedSelector } from '../../../hooks/useTypeSelector.js';
 import { useDispatch } from 'react-redux';
 import { fetchBooksByQuery } from '../../../backend/actions/bookActions';
 import { motion } from 'framer-motion';
+import { formatNumber } from '../../../utils/FormatterValues';
+import BookComponentSkeleton from '../../../components/bookComponent/BookComponentSkeleton';
+import AlertModal from '../../../components/alertModal/AlertModal';
+import { ErrorResponseModel } from '../../../backend/models/error/ErrorResponseModel.js';
+import Lottie from 'react-lottie';
+import booksSearchJson from '../../../assets/lotties/books-search.json';
+import UseWindowDimensions from '../../../utils/UseWindowDimensions';
+import ISO6391 from 'iso-639-1';
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
@@ -46,6 +54,8 @@ export default function HomeScreen() {
     new HomeCategoryModel('Língua Inglesa', EnglishLanguageImage, 'English Language'),
     new HomeCategoryModel('Romance', RomanceImage, 'Romance'),
   ]);
+  const [categorySelected, setCategorySelected] = useState<HomeCategoryModel>();
+  const [isDownloadAvailable, setIsDownloadAvailable] = useState<boolean>();
   const filtersVolumeByTypeAndPriceList = useState<ComboBoxValueProps[]>([
     new ComboBoxValueProps('', 'Selecionar'),
     new ComboBoxValueProps('free-ebooks', 'Livros grátis'),
@@ -71,20 +81,59 @@ export default function HomeScreen() {
     new ComboBoxValueProps('magazines', 'Revistas'),
   ]);  
   const [printTypeSelected, setPrintTypeSelected] = useState<ComboBoxValueProps>(new ComboBoxValueProps('all', 'Relevância'));
-  const [searchBarText, setSearchBarText] = useState<string>('');
+  const [languagesList, setLanguagesList] = useState<ComboBoxValueProps[]>([]);
+  const [languageSelected, setLanguageSelected] = useState<ComboBoxValueProps>();
+  const [searchBarText, setSearchBarText] = useState<string>('ReactJS');
+  const [page, setPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [error, setError] = useState<ErrorResponseModel>();
+  const [showError, setShowError] = useState<boolean>(false);
 
   const booksQuery = useTypedSelector(state => state.booksQuery);
-  const { data: booksQueryData, error: booksQueryError, loading: booksQueryLoading } = booksQuery;
+  const { data: booksQueryData, loading: booksQueryLoading, error: booksQueryError } = booksQuery;
+
+  const defaultOptions = {
+      loop: true,
+      autoplay: true,
+      animationData: booksSearchJson,
+      rendererSettings: {
+        preserveAspectRatio: "xMidYMid slice"
+      },
+  };
+
+  const { width } = UseWindowDimensions();
+  const isMobile = width <= 768;
 
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    if (searchBarText !== '') {
-      dispatch(fetchBooksByQuery(searchBarText));
+    if (searchBarText !== '' || (categorySelected)) {
+      dispatch(fetchBooksByQuery(searchBarText, (formatNumber(maxResultsSelected.value) * page + 1), categorySelected?.type, isDownloadAvailable, filterVolumeByTypeAndPriceSelected?.value, maxResultsSelected.value, printTypeSelected.value, orderBySelected.value, languageSelected?.value));
     }
-  }, [dispatch, searchBarText]);
+  }, [dispatch, searchBarText, page, categorySelected, isDownloadAvailable, filterVolumeByTypeAndPriceSelected, maxResultsSelected, printTypeSelected, orderBySelected, languageSelected]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setTotalPages(booksQueryData ? (booksQueryData.totalItems/formatNumber(maxResultsSelected.value)) : 0);
+  }, [booksQueryData, maxResultsSelected]);
+
+  useEffect(() => {
+    if (booksQueryError) {
+      setShowError(true);
+      setError(booksQueryError);
+    }
+  }, [booksQueryError]);
+
+  useEffect(() => {
+    var list: ComboBoxValueProps[] = [];
+    list.push(new ComboBoxValueProps('', 'Selecionar idioma'));
+    ISO6391.getAllCodes().forEach((code) => {
+      list.push(new ComboBoxValueProps(code, ISO6391.getName(code)));
+    });
+    setLanguagesList(list);
+  }, []);
 
   return (
     <PageAnimation>
@@ -95,7 +144,16 @@ export default function HomeScreen() {
                   { categories[0].map((category) => {
                     return (
                       <div className='home-screen-category-item' key={category.type}>
-                        <CategoryComponent category={category} />
+                        <CategoryComponent 
+                          category={category}
+                          isCategorySelected={categorySelected?.type === category.type}
+                          onClick={() => {
+                            if (category.type === categorySelected?.type) {
+                              setCategorySelected(undefined);
+                            } else {
+                              setCategorySelected(category)
+                            }
+                          }} />
                       </div>
                     )
                   })}
@@ -108,7 +166,7 @@ export default function HomeScreen() {
                     <label className='title3Bold'>Filtros</label>
                     <div className='home-screen-filters-divider' />
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox />} label="Baixável" />
+                        <FormControlLabel control={<Checkbox value={isDownloadAvailable} onChange={e => setIsDownloadAvailable(e.target.checked)} />} label="Baixável" />
                         <div className='home-screen-filters-book-type'>
                           <ComboBox 
                             options={filtersVolumeByTypeAndPriceList[0]} 
@@ -137,6 +195,15 @@ export default function HomeScreen() {
                             onChange={(value: ComboBoxValueProps) => {
                               setPrintTypeSelected(value);
                             }} />
+                        <div className='home-screen-filters-combobox-language'>
+                          <ComboBox 
+                              options={languagesList} 
+                              placeholder='Selecionar idioma'
+                              value={languageSelected?.value}
+                              onChange={(value: ComboBoxValueProps) => {
+                                setLanguageSelected(value);
+                              }} />
+                        </div>
                     </FormGroup>
                   </div>
 
@@ -160,10 +227,10 @@ export default function HomeScreen() {
                         </div>
                       </div>
                       <div className='home-screen-books-list'>
-                        { booksQueryData?.items?.map((book, index) => {
+                        { booksQueryData && booksQueryData.items ? booksQueryData.items?.map((book, index) => {
                           return (
                             <motion.div 
-                                  key={`animation-product-${index}`}
+                                  key={`home-screen-books-${index}`}
                                   initial={{ opacity: index <= 15 ? 0 : 1, scale: index <= 15 ? 0.9 : 1 }}
                                   animate={{ opacity: 1, scale: 1 }}
                                   exit={{ opacity: 0 }}
@@ -176,8 +243,51 @@ export default function HomeScreen() {
                               </div>
                             </motion.div>
                           )
-                        })}
+                        }) : booksQueryLoading ? (
+                          <>
+                            {[...Array(10)].map((i, index) => {
+                                return (
+                                    <motion.div 
+                                        key={`home-screen-books-empty-${index}`}
+                                        initial={{ opacity: index <= 15 ? 0 : 1, scale: index <= 15 ? 0.9 : 1 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{
+                                        duration: index <= 15 ? (index + 1) * 0.2 : 0,
+                                        ease: "easeInOut",
+                                        }}>
+                                        <div key={`${index}-home-screen-books-empty`} className='home-screen-books-list-item'>
+                                          <BookComponentSkeleton />
+                                        </div>
+                                    </motion.div>
+                                );
+                            }
+                            )}
+                          </>
+                        ) : (
+                          <div className='home-screen-books-empty-background'>
+                            <Lottie options={defaultOptions}
+                              isClickToPauseDisabled={true}
+                              height={isMobile ? '200px' : '300px'}
+                              width={isMobile ? '300px' : '400px'}
+                              style={{
+                                marginTop: isMobile ? '80px' : '3%',
+                              }}
+                              />
+                              <label className='title3Bold secondaryTextLight'>Nenhum livro foi encontrado</label>
+                          </div>
+                        )}
                       </div>
+
+                      {/* Pagination */}
+                      { booksQueryData && booksQueryData.items && (
+                        <Pagination 
+                          className='home-screen-books-list-pagination' 
+                          count={totalPages}
+                          page={page}
+                          color='primary'
+                          onChange={(e, page) => setPage(page)} />
+                      )}
                   </div>
                   
 
@@ -185,6 +295,15 @@ export default function HomeScreen() {
 
             </div>
         </div>
+
+        <AlertModal
+          error={error}
+          show={showError}
+          button1Text='OK'
+          button1Click={() => {
+            setShowError(false);
+          }}
+        />
     </PageAnimation>
   )
 }

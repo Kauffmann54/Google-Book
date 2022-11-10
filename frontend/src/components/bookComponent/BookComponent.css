@@ -37,6 +37,8 @@
 .book-component-title {
     text-align: center;
     margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -53,6 +55,7 @@
     align-items: center;
     justify-content: space-between;
     margin: 10px 10px 0px 10px;
+    margin-top: auto;
 }
 
 .book-component-button-details {

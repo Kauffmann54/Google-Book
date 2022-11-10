@@ -3,6 +3,7 @@
     max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
+    transition: all 0.3s;
 }
 
 .home-screen-content {
@@ -71,6 +72,10 @@
     margin-top: 10px;
 }
 
+.home-screen-filters-combobox-language {
+    margin-top: 10px;
+}
+
 /* Books List body */
 .home-screen-books-body {
     display: flex;
@@ -106,4 +111,25 @@
 
 .home-screen-books-list-item {
     padding: 10px;
+}
+
+.home-screen-books-list-pagination {
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.home-screen-books-empty-background {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    margin-bottom: 30px;
+}
+
+@media (min-width: 1500px) {
+    .home-screen-background {
+        max-width: 1500px;
+    }
 }
