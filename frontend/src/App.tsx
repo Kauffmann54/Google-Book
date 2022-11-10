@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import HeaderAside from './components/header/HeaderAside';
+import BookPageScreen from './screens/book/view/BookPageScreen';
 import FavoriteScreen from './screens/favorites/view/FavoriteScreen';
 import HomeScreen from './screens/home/view/HomeScreen';
 
@@ -38,6 +39,9 @@ function App() {
           } />
           <Route path="/favorites" element={
             <FavoriteScreen />
+          } />
+          <Route path="/book/:id" element={
+            <BookPageScreen />
           } />
         </Routes>
         <footer>

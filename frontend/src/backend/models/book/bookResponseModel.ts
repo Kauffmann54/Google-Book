@@ -7,8 +7,8 @@ export interface BookModel {
   volumeInfo: {
     title: string;
     authors: string[];
-    publisher: string;
-    publishedDate: string;
+    publisher?: string;
+    publishedDate?: string;
     description: string;
     industryIdentifiers?: {
       type: string;
@@ -17,8 +17,8 @@ export interface BookModel {
     pageCount?: number;
     printType: string;
     categories: string[];
-    averageRating: number;
-    ratingsCount: number;
+    averageRating?: number;
+    ratingsCount?: number;
     imageLinks?: {
       thumbnail: string;
     };
