@@ -3,8 +3,15 @@ import thunk from 'redux-thunk';
 import reducers from './reducers';
 
 const getInitialState = () => {
+  var favoriteList = {};
+  
+  if (localStorage.getItem('favoriteList')) {
+    try {
+      favoriteList = JSON.parse(localStorage.getItem('favoriteList'));
+    } catch (e) { }
+  }
   return {
-    
+    favoriteList: favoriteList
   };
 }
 

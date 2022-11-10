@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import { booksQueryListReducer } from '../backend/reducers/booksReducers';
+import { booksQueryListReducer, bookModifyFavoriteReducer, booksFavoritesReducer } from '../backend/reducers/booksReducers';
 
 const reducers = combineReducers({
-    booksQuery: booksQueryListReducer
+    booksQuery: booksQueryListReducer,
+    bookFavorite: bookModifyFavoriteReducer,
+    favoriteList: booksFavoritesReducer
 });
 
 export default reducers;
