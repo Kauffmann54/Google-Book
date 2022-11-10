@@ -77,12 +77,14 @@ export const addBookToFavorite = (book: BookModel) => {
       const favoriteList = localStorage.getItem('favoriteList');
       var favoriteListToSave = new Map();
       if (favoriteList) {
-        const items: BookModel[] = JSON.parse(favoriteList);
-        items.forEach(item => {
+        const items: {
+          data: BookModel[];
+        } = JSON.parse(favoriteList);
+        items.data.forEach(item => {
           favoriteListToSave.set(item.id, item);
         });
-        favoriteListToSave.set(book.id, book);
       }
+      favoriteListToSave.set(book.id, book);
 
       localStorage.setItem(
         'favoriteList',
@@ -92,9 +94,13 @@ export const addBookToFavorite = (book: BookModel) => {
         })
       );
 
+      const list = Array.from(favoriteListToSave.values());
       dispatch({
         type: BookActionTypes.ADD_BOOK_FAVORITE_SUCCESS,
-        payload: true,
+        payload: {
+          totalItems: list.length,
+          items: list,
+        },
       });
     } catch (error) {
       const errorResponse = formatError(error);
@@ -113,20 +119,25 @@ export const removeBookFromFavorite = (bookId: string) => {
     try {
       const favoriteList = localStorage.getItem('favoriteList');
       if (favoriteList) {
-        var items: BookModel[] = JSON.parse(favoriteList);
-        items = items.filter(bookItem => {
+        var items: {
+          data: BookModel[];
+        } = JSON.parse(favoriteList);
+        const listFiltered = (items.data = items.data.filter(bookItem => {
           return bookItem.id !== bookId;
-        });
+        }));
         localStorage.setItem(
           'favoriteList',
-          JSON.stringify({ loading: false, data: items })
+          JSON.stringify({ loading: false, data: items.data })
         );
-      }
 
-      dispatch({
-        type: BookActionTypes.REMOVE_BOOK_FAVORITE_SUCCESS,
-        payload: true,
-      });
+        dispatch({
+          type: BookActionTypes.REMOVE_BOOK_FAVORITE_SUCCESS,
+          payload: {
+            totalItems: listFiltered.length,
+            items: listFiltered,
+          },
+        });
+      }
     } catch (error) {
       const errorResponse = formatError(error);
       dispatch({
@@ -137,27 +148,43 @@ export const removeBookFromFavorite = (bookId: string) => {
   };
 };
 
-export const getBooksFavorites = () => {
-    return async (dispatch: Dispatch<BooksResponseAction>) => {
-      dispatch({ type: BookActionTypes.GET_BOOK_FAVORITES_REQUEST });
-  
-      try {
-        var items: BookModel[] = [];
-        const favoriteList = localStorage.getItem('favoriteList');
-        if (favoriteList) {
-          items = JSON.parse(favoriteList);
-        }
-  
-        dispatch({
-          type: BookActionTypes.GET_BOOK_FAVORITES_SUCCESS,
-          payload: items,
-        });
-      } catch (error) {
-        const errorResponse = formatError(error);
-        dispatch({
-          type: BookActionTypes.GET_BOOK_FAVORITES_FAIL,
-          payload: errorResponse,
-        });
+export const getBooksFavorites = (page: number, maxResults: number) => {
+  return async (dispatch: Dispatch<BooksResponseAction>) => {
+    dispatch({ type: BookActionTypes.GET_BOOK_FAVORITES_REQUEST });
+
+    try {
+      var items: BookModel[] = [];
+      const favoriteList = localStorage.getItem('favoriteList');
+      if (favoriteList) {
+        const favoriteListFormatted: {
+          data: BookModel[];
+        } = JSON.parse(favoriteList);
+        items = favoriteListFormatted.data;
       }
-    };
+
+      const listPaginated = paginate(items, maxResults, page);
+
+      dispatch({
+        type: BookActionTypes.GET_BOOK_FAVORITES_SUCCESS,
+        payload: {
+          totalItems: items.length,
+          items: listPaginated,
+        },
+      });
+    } catch (error) {
+      const errorResponse = formatError(error);
+      dispatch({
+        type: BookActionTypes.GET_BOOK_FAVORITES_FAIL,
+        payload: errorResponse,
+      });
+    }
   };
+};
+
+const paginate = (
+  array: BookModel[],
+  pageSize: number,
+  pageNumber: number
+): BookModel[] => {
+  return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+};

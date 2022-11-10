@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import HeaderAside from './components/header/HeaderAside';
+import FavoriteScreen from './screens/favorites/view/FavoriteScreen';
 import HomeScreen from './screens/home/view/HomeScreen';
 
 function App() {  
@@ -34,6 +35,9 @@ function App() {
           } />
           <Route path="/" element={
             <HomeScreen />
+          } />
+          <Route path="/favorites" element={
+            <FavoriteScreen />
           } />
         </Routes>
         <footer>

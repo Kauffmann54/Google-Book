@@ -61,3 +61,15 @@
 .book-component-button-details {
     margin: 15px 10px 10px 10px;
 }
+
+@media (max-width: 768px) {
+    .book-component-background {
+        width: 88vw;
+        height: 420px;
+    }
+
+    .book-component-image {
+        height: 260px;
+        width: 200px;
+    }
+}

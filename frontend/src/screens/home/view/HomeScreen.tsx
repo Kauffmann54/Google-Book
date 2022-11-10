@@ -84,6 +84,7 @@ export default function HomeScreen() {
   const [languagesList, setLanguagesList] = useState<ComboBoxValueProps[]>([]);
   const [languageSelected, setLanguageSelected] = useState<ComboBoxValueProps>();
   const [searchBarText, setSearchBarText] = useState<string>('ReactJS');
+  const [searchBarTextChange, setSearchBarTextChange] = useState<boolean>(false);
   const [page, setPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [error, setError] = useState<ErrorResponseModel>();
@@ -113,6 +114,12 @@ export default function HomeScreen() {
       dispatch(fetchBooksByQuery(searchBarText, (formatNumber(maxResultsSelected.value) * page + 1), categorySelected?.type, isDownloadAvailable, filterVolumeByTypeAndPriceSelected?.value, maxResultsSelected.value, printTypeSelected.value, orderBySelected.value, languageSelected?.value));
     }
   }, [dispatch, searchBarText, page, categorySelected, isDownloadAvailable, filterVolumeByTypeAndPriceSelected, maxResultsSelected, printTypeSelected, orderBySelected, languageSelected]);
+
+  useEffect(() => {
+    if (categorySelected && !searchBarTextChange) {
+      setSearchBarText('');
+    }
+  }, [categorySelected, searchBarTextChange]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -213,6 +220,7 @@ export default function HomeScreen() {
                         <div className='home-screen-books-order-search-bar'>
                           <SearchBar 
                           onSearch={(text: string) => {
+                            setSearchBarTextChange(true);
                             setSearchBarText(text);
                           }} />
                         </div>

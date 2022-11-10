@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux';
-import { booksQueryListReducer, bookModifyFavoriteReducer, booksFavoritesReducer } from '../backend/reducers/booksReducers';
+import { booksQueryListReducer, booksFavoritesReducer } from '../backend/reducers/booksReducers';
 
 const reducers = combineReducers({
     booksQuery: booksQueryListReducer,
-    bookFavorite: bookModifyFavoriteReducer,
     favoriteList: booksFavoritesReducer
 });
 

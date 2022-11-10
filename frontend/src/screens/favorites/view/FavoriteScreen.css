@@ -1,0 +1,72 @@
+.favorite-screen-background {
+    display: flex;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: all 0.3s;
+}
+
+.favorite-screen-content {
+    display: flex;
+    flex-direction: column;
+    width: stretch;
+    min-height: 65vh;
+    margin-top: 33px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.favorite-screen-max-results {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-bottom: 10px;
+}
+
+.favorite-screen-max-results-label {
+    margin-bottom: 10px;
+}
+
+.favorite-screen-books-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 7px;
+}
+
+.favorite-screen-books-list-item {
+    padding: 10px;
+}
+
+.favorite-screen-books-list-pagination {
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+}
+
+.favorite-screen-books-empty-background {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+    .favorite-screen-max-results {
+        width: stretch;
+    }
+
+    .favorite-screen-max-results-label {
+        margin-top: 15px;
+    }
+
+    .favorite-screen-books-list-pagination {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}

@@ -49,6 +49,11 @@ export interface BooksResponseModel {
   items?: BookModel[];
 }
 
+export interface FavoritesBooksResponseModel {
+  totalItems: number;
+  items?: BookModel[];
+}
+
 // Action
 // Book List Query
 export interface BookListQueryRequestAction {
@@ -76,7 +81,7 @@ export interface AddBookToFavoriteRequestAction {
 
 export interface AddBookToFavoriteSuccessAction {
   type: BookActionTypes.ADD_BOOK_FAVORITE_SUCCESS;
-  payload: boolean;
+  payload: FavoritesBooksResponseModel;
 }
 
 export interface AddBookToFavoriteFailAction {
@@ -91,7 +96,7 @@ export interface RemoveBookFromFavoriteRequestAction {
 
 export interface RemoveBookFromFavoriteSuccessAction {
   type: BookActionTypes.REMOVE_BOOK_FAVORITE_SUCCESS;
-  payload: boolean;
+  payload: FavoritesBooksResponseModel;
 }
 
 export interface RemoveBookFromFavoriteFailAction {
@@ -106,7 +111,7 @@ export interface GetBooksFavoritesRequestAction {
 
 export interface GetBooksFavoritesSuccessAction {
   type: BookActionTypes.GET_BOOK_FAVORITES_SUCCESS;
-  payload: BookModel[];
+  payload: FavoritesBooksResponseModel;
 }
 
 export interface GetBooksFavoritesFailAction {
@@ -137,16 +142,9 @@ export interface BooksListQueryResponseState {
   data?: BooksResponseModel;
 }
 
-export interface BooksModifyFavoriteResponseState {
-  type?: string;
-  loading?: boolean;
-  error?: ErrorResponseModel;
-  data?: boolean;
-}
-
 export interface BooksFavoriteResponseState {
   type?: string;
   loading?: boolean;
   error?: ErrorResponseModel;
-  data?: BookModel[];
+  data?: FavoritesBooksResponseModel;
 }
