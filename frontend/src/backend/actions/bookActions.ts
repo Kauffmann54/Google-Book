@@ -188,3 +188,55 @@ const paginate = (
 ): BookModel[] => {
   return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
 };
+
+export const fetchBook = (id: string) => {
+  return async (dispatch: Dispatch<BooksResponseAction>) => {
+    dispatch({ type: BookActionTypes.GET_BOOK_DETAILS_REQUEST });
+
+    try {
+      const request: APICallRequest = {
+        method: HTTPMethod.GET,
+        path: `/v1/volumes/${id}`,
+      };
+
+      const response = await makeAPICall<BookModel>(request);
+
+      dispatch({
+        type: BookActionTypes.GET_BOOK_DETAILS_SUCCESS,
+        payload: response,
+      });
+    } catch (error) {
+      const errorResponse = formatError(error);
+      dispatch({
+        type: BookActionTypes.GET_BOOK_DETAILS_FAIL,
+        payload: errorResponse,
+      });
+    }
+  };
+};
+
+export const fetchBooksRecommended = (category: string) => {
+  return async (dispatch: Dispatch<BooksResponseAction>) => {
+    dispatch({ type: BookActionTypes.GET_BOOKS_RECOMMENDED_REQUEST });
+
+    try {
+      const request: APICallRequest = {
+        method: HTTPMethod.GET,
+        path: `/v1/volumes?q=subject:${category.split('/')[0].trim()}`,
+      };
+
+      const response = await makeAPICall<BooksResponseModel>(request);
+
+      dispatch({
+        type: BookActionTypes.GET_BOOKS_RECOMMENDED_SUCCESS,
+        payload: response,
+      });
+    } catch (error) {
+      const errorResponse = formatError(error);
+      dispatch({
+        type: BookActionTypes.GET_BOOKS_RECOMMENDED_FAIL,
+        payload: errorResponse,
+      });
+    }
+  };
+};

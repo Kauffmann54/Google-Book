@@ -27,3 +27,26 @@ export const formatNumber = (value: string): number => {
       return 0;
   }
 };
+
+export function formatterMoney(value: number, currency: string):string {
+  const valueFormatted = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: currency,
+      minimumFractionDigits: 2,
+  }).format(value);
+
+  return valueFormatted;
+};
+
+export const removeHTMLTags = (value: string) => {
+  const regex = /(<([^>]+)>)/ig;
+  return value.replace(regex, '');
+}
+
+export const formatterDate = (date: string) => {
+  const dateSplit = date.split('-');
+  if (dateSplit.length > 1) {
+    return `${dateSplit[2]}/${dateSplit[1]}/${dateSplit[0]}`
+  }
+  return date;
+}

@@ -8,6 +8,7 @@ import noBookImage from '../../assets/no-book.png';
 import { useTypedSelector } from '../../hooks/useTypeSelector'
 import { useDispatch } from 'react-redux'
 import { addBookToFavorite, removeBookFromFavorite } from '../../backend/actions/bookActions'
+import { useNavigate } from 'react-router-dom'
 
 interface BookComponentProps {
     book: BookModel;
@@ -15,6 +16,7 @@ interface BookComponentProps {
 
 export default function BookComponent(props: BookComponentProps) {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const favoriteList = useTypedSelector(state => state.favoriteList);
     const { data: favoriteListData } = favoriteList;
@@ -33,7 +35,7 @@ export default function BookComponent(props: BookComponentProps) {
         <label className='font-custom primaryTextLight book-component-title'>{props.book.volumeInfo.title}</label>
         <div className='book-component-second-line'>
             <RatingComponent 
-                rating={props.book.volumeInfo.averageRating} 
+                rating={props.book.volumeInfo.averageRating || 0} 
                 ratingSize={RatingSizeProps.Small} />
             <ButtonFavorite 
                 isFavorite={favoriteListData && favoriteListData.items ? favoriteListData.items.find((favorite) => { return favorite.id === props.book.id }) !== undefined : false} 
@@ -48,7 +50,7 @@ export default function BookComponent(props: BookComponentProps) {
         <div className='book-component-button-details'>
             <Button 
                 onClick={() => {
-                  
+                  navigate(`/book/${props.book.id}`);
                 }} 
                 text={'Ver mais'} />
         </div>

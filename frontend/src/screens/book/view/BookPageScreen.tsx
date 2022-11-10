@@ -1,83 +1,170 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import './BookPageScreen.css'
+import { useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { fetchBook, fetchBooksRecommended } from '../../../backend/actions/bookActions';
 import Button, { ButtonTypes } from '../../../components/buttons/Button'
 import RatingComponent, { RatingSizeProps } from '../../../components/rating/RatingComponent'
-import './BookPageScreen.css'
+import { useTypedSelector } from '../../../hooks/useTypeSelector';
+import noBookImage from '../../../assets/no-book.png';
+import { formatterDate, formatterMoney, removeHTMLTags } from '../../../utils/FormatterValues';
+import { motion } from 'framer-motion';
+import BookComponent from '../../../components/bookComponent/BookComponent';
+import { BookActionTypes } from '../../../backend/constants/bookConstants';
 
 export default function BookPageScreen() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { id } = useParams();
+
+    const book = useTypedSelector(state => state.book);
+    const { data: bookData, loading: bookLoading, error: bookError } = book;
+
+    const booksQuery = useTypedSelector(state => state.booksQuery);
+    const { data: booksQueryData, loading: booksQueryLoading, error: booksQueryError } = booksQuery;
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        if (id) {
+            dispatch(fetchBook(id));
+        }
+    }, [dispatch, id]);
+
+    useEffect(() => {
+        if (bookData && bookData.volumeInfo.categories) {
+            dispatch(fetchBooksRecommended(bookData.volumeInfo.categories[0]));
+        } else if (!bookData) {
+            dispatch({ type: BookActionTypes.GET_BOOK_DETAILS_RESET });
+        } else {
+            dispatch({ type: BookActionTypes.GET_BOOKS_RECOMMENDED_RESET });
+        }
+    }, [dispatch, bookData]);
+
   return (
     <div className='book-screen-background'>
         <div className='book-screen-content'>
-            <div className='book-screen-details-background'>
-                <label className='font-custom primaryTextLight book-screen-details-title'>Harry Potter e o Cálice de Fogo</label>
-                <div className='book-screen-details-content'>
-                    <img src='http://books.google.com/books/content?id=ZDgQCwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api' className='book-screen-details-image' />
-                    <div className='book-screen-details-content-texts'>
-                        <div className='book-screen-details-content-top'>
-                            <div className='book-screen-details-content-lables'>
-                                <div>
-                                    <label className='subtitle2Bold'>Autores:</label>
-                                    <label className='subtitle2 primaryColor book-screen-details-lable-authors'>J.K. Rowling</label>
+            { bookData ? (
+                <div className='book-screen-details-background'>
+                    <label className='font-custom primaryTextLight book-screen-details-title'>{bookData.volumeInfo.title}</label>
+                    <div className='book-screen-details-content'>
+                        <img src={bookData.volumeInfo.imageLinks ? bookData.volumeInfo.imageLinks.thumbnail : noBookImage} alt={bookData.volumeInfo.title} className='book-screen-details-image' />
+                        <div className='book-screen-details-content-texts'>
+                            <div className='book-screen-details-content-top'>
+                                <div className='book-screen-details-content-lables'>
+                                    <div>
+                                        <label className='subtitle2Bold'>Autores:</label>
+                                        <label className='subtitle2 primaryColor book-screen-details-lable-authors'>{bookData.volumeInfo.authors.join(', ')}</label>
+                                    </div>
+                                    <div>
+                                        {bookData.volumeInfo.publisher && (
+                                            <>
+                                                <label className='subtitle2Bold'>Editora:</label>
+                                                <label className='subtitle2 primaryColor book-screen-details-lable-publisher'>{bookData.volumeInfo.publisher}</label>
+                                            </>
+                                        )}
+                                        { bookData.volumeInfo.pageCount && bookData.volumeInfo.pageCount > 0 && (
+                                            <label className='subtitle2 secondaryTextLight book-screen-details-lable-pages'>{`- ${bookData.volumeInfo.pageCount} páginas`}</label>
+                                        )}
+                                    </div>
+                                    <div className='book-screen-details-rating'>
+                                        <RatingComponent 
+                                            rating={bookData.volumeInfo.averageRating || 0} 
+                                            ratingSize={RatingSizeProps.Medium} />
+                                    </div>
                                 </div>
-                                <div>
-                                    <label className='subtitle2Bold'>Editora:</label>
-                                    <label className='subtitle2 primaryColor book-screen-details-lable-publisher'>Pottermore Publishing</label>
-                                    <label className='subtitle2 secondaryTextLight book-screen-details-lable-pages'>- 758 páginas</label>
-                                </div>
-                                <div className='book-screen-details-rating'>
-                                    <RatingComponent 
-                                        rating={5} 
-                                        ratingSize={RatingSizeProps.Medium} />
+                                <div className='book-screen-details-content-right'>
+                                    { bookData.volumeInfo.publishedDate && (
+                                        <div>
+                                            <label className='subtitle2Bold'>Data de publicação:</label>
+                                            <label className='subtitle2 primaryColor book-screen-details-lable-publisher'>{formatterDate(bookData.volumeInfo.publishedDate)}</label>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                            <div className='book-screen-details-content-right'>
-                                <div>
-                                    <label className='subtitle2Bold'>Data de publicação:</label>
-                                    <label className='subtitle2 primaryColor book-screen-details-lable-publisher'>2015-12-08</label>
-                                </div>
-                            </div>
-                        </div>
-                        <label className='book-screen-details-description'>Haverá três tarefas, espaçadas durante o ano letivo, que servirão para testar os campeões de diferentes maneiras... sua perícia em magia, sua coragem, seus poderes de dedução e, naturalmente, sua capacidade de enfrentar o perigo.' O Torneio Tribruxo será realizado em Hogwarts. Apenas bruxos acima dos dezessete anos de idade podem se inscrever - mas isso não impede que Harry sonhe em vencer a competição. E então, no Dia das Bruxas, quando o Cálice de Fogo faz sua seleção, Harry se surpreende ao ver que seu nome é um dos que a taça mágica escolhe. Ele terá de enfrentar tarefas mortais, dragões e bruxos das trevas, mas com a ajuda de seus melhores amigos, Ron e Hermione, talvez ele consiga sair dessa - vivo!</label>
-                        <div className='book-screen-details-language'>
-                            <label className='subtitle2Bold'>Idioma:</label>
-                            <label className='subtitle2 book-screen-details-lable-language'>pt-BR</label>
-                        </div>
-
-                        {/* Categories */}
-                        <div className='book-screen-details-categories'>
-                            <div className='book-screen-details-category-item-background'>
-                                <label className='title3Bold primaryColor book-screen-details-category-item-label'>Juvenile Fiction</label>
-                            </div>
-                        </div>
-
-                        {/* Book Offers */}
-                        <div className='book-screen-details-book-offers'>
-                            {/* Product for sale */}
-                            <div className='book-screen-details-book-for-sale'>
-                                <label className='book-screen-details-book-for-sale-price'>R$ 24,90</label>
-                                <div className='book-screen-details-book-for-sale-button'>
-                                    <Button 
-                                        onClick={() => {
-                                        
-                                        }} 
-                                        borderRadius={'25px'}
-                                        text={'Comprar'} />
-                                </div>
+                            <label className='book-screen-details-description'>{removeHTMLTags(bookData.volumeInfo.description)}</label>
+                            <div className='book-screen-details-language'>
+                                <label className='subtitle2Bold'>Idioma:</label>
+                                <label className='subtitle2 book-screen-details-lable-language'>{bookData.volumeInfo.language}</label>
                             </div>
 
-                            {/* Download PDF */}
-                            <div className='book-screen-details-book-for-sale-button-pdf'>
-                                <Button 
-                                    onClick={() => {
-                                    
-                                    }} 
-                                    type={ButtonTypes.Secondary}
-                                    borderRadius={'25px'}
-                                    text={'Download'} />
+                            {/* Categories */}
+                            { bookData.volumeInfo.categories && (
+                                <div className='book-screen-details-categories'>
+                                    { bookData.volumeInfo.categories.map((item) => {
+                                        return (
+                                            <div key={item} className='book-screen-details-category-item-background' onClick={() => { navigate(`/?category=${item}`) }}>
+                                                <label className='title3Bold primaryColor book-screen-details-category-item-label'>{item}</label>
+                                            </div>
+                                        )
+                                    }) }
+                                </div>
+                            )}
+
+                            {/* Book Offers */}
+                            <div className='book-screen-details-book-offers'>
+                                {/* Product for sale */}
+                                { bookData.saleInfo.listPrice && (
+                                    <div className='book-screen-details-book-for-sale'>
+                                        <label className='book-screen-details-book-for-sale-price'>{formatterMoney(bookData.saleInfo.listPrice.amount, bookData.saleInfo.listPrice.currencyCode)}</label>
+                                        { bookData.saleInfo.buyLink && (
+                                            <div className='book-screen-details-book-for-sale-button'>
+                                                <Button 
+                                                    onClick={() => {
+                                                        window.open(bookData.saleInfo.buyLink, '_blank');
+                                                    }} 
+                                                    borderRadius={'25px'}
+                                                    text={'Comprar'} />
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* Download PDF */}
+                                { bookData.accessInfo.pdf.isAvailable && (
+                                    <div className='book-screen-details-book-for-sale-button-pdf'>
+                                        <Button 
+                                            onClick={() => {
+                                                window.open(bookData.accessInfo.pdf.acsTokenLink, '_blank');
+                                            }} 
+                                            type={ButtonTypes.Secondary}
+                                            borderRadius={'25px'}
+                                            text={'Download'} />
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            ) : (
+                <></>
+            )}
+
+            {/* Books Recommended */}
+            { booksQueryData && booksQueryData.items && (
+                <div className='book-screen-books-recommended'>
+                    <label className='title2Bold'>Livros Recomendados</label>
+                    <div className='book-screen-books-recommended-list'>
+                        { booksQueryData.items.map((book, index) => {
+                            return (
+                                <motion.div 
+                                        key={`home-screen-books-${index}`}
+                                        initial={{ opacity: index <= 15 ? 0 : 1, scale: index <= 15 ? 0.9 : 1 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{
+                                        duration: index <= 15 ? (index + 1) * (index <= 4 ? 0.2 : 0.1) : 0,
+                                        ease: "easeInOut",
+                                        }}>
+                                    <div className='home-screen-books-list-item' key={`book-${book.id}`}>
+                                        <BookComponent book={book} />
+                                    </div>
+                                </motion.div>
+                            )
+                        })}
+                    </div>
+                </div>
+            )}
+
         </div>
     </div>
   )

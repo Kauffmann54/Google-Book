@@ -16,7 +16,7 @@ export interface BookModel {
     }[];
     pageCount?: number;
     printType: string;
-    categories: string[];
+    categories?: string[];
     averageRating?: number;
     ratingsCount?: number;
     imageLinks?: {
@@ -119,6 +119,44 @@ export interface GetBooksFavoritesFailAction {
   payload: ErrorResponseModel;
 }
 
+// Get Book details
+export interface GetBookDetailsRequestAction {
+  type: BookActionTypes.GET_BOOK_DETAILS_REQUEST;
+}
+
+export interface GetBookDetailsSuccessAction {
+  type: BookActionTypes.GET_BOOK_DETAILS_SUCCESS;
+  payload: BookModel;
+}
+
+export interface GetBookDetailsFailAction {
+  type: BookActionTypes.GET_BOOK_DETAILS_FAIL;
+  payload: ErrorResponseModel;
+}
+
+export interface GetBookDetailsResetAction {
+  type: BookActionTypes.GET_BOOK_DETAILS_RESET;
+}
+
+// Get Books Recommended
+export interface BooksRecommendedRequestAction {
+  type: BookActionTypes.GET_BOOKS_RECOMMENDED_REQUEST;
+}
+
+export interface BooksRecommendedSuccessAction {
+  type: BookActionTypes.GET_BOOKS_RECOMMENDED_SUCCESS;
+  payload: BooksResponseModel;
+}
+
+export interface BooksRecommendedFailAction {
+  type: BookActionTypes.GET_BOOKS_RECOMMENDED_FAIL;
+  payload: ErrorResponseModel;
+}
+
+export interface BooksRecommendedResetAction {
+  type: BookActionTypes.GET_BOOKS_RECOMMENDED_RESET;
+}
+
 export type BooksResponseAction =
   | BookListQueryRequestAction
   | BookListQuerySuccessAction
@@ -132,7 +170,15 @@ export type BooksResponseAction =
   | RemoveBookFromFavoriteFailAction
   | GetBooksFavoritesRequestAction
   | GetBooksFavoritesSuccessAction
-  | GetBooksFavoritesFailAction;
+  | GetBooksFavoritesFailAction
+  | GetBookDetailsRequestAction
+  | GetBookDetailsSuccessAction
+  | GetBookDetailsFailAction
+  | GetBookDetailsResetAction
+  | BooksRecommendedRequestAction
+  | BooksRecommendedSuccessAction
+  | BooksRecommendedFailAction
+  | BooksRecommendedResetAction;
 
 // Response state
 export interface BooksListQueryResponseState {
@@ -147,4 +193,11 @@ export interface BooksFavoriteResponseState {
   loading?: boolean;
   error?: ErrorResponseModel;
   data?: FavoritesBooksResponseModel;
+}
+
+export interface BookResponseState {
+  type?: string;
+  loading?: boolean;
+  error?: ErrorResponseModel;
+  data?: BookModel;
 }
