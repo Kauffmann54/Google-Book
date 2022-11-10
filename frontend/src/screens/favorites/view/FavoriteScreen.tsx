@@ -12,9 +12,12 @@ import UseWindowDimensions from '../../../utils/UseWindowDimensions';
 import { Pagination } from '@mui/material';
 import ComboBox, { ComboBoxValueProps } from '../../../components/comboBox/ComboBox';
 import { formatNumber } from '../../../utils/FormatterValues';
+import Button, { ButtonTypes } from '../../../components/buttons/Button';
+import { useNavigate } from 'react-router-dom';
 
 export default function FavoriteScreen() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [page, setPage] = useState<number>(1);
     const maxResultsList = useState<ComboBoxValueProps[]>([
@@ -110,7 +113,15 @@ export default function FavoriteScreen() {
                         marginTop: isMobile ? '80px' : '3%',
                         }}
                         />
-                        <label className='title3Bold secondaryTextLight'>Nenhum livro foi encontrado</label>
+                        <label className='title3Bold secondaryTextLight'>Você não tem nenhum livro favorito</label>
+                        <Button 
+                            onClick={() => {navigate(`/`)}}
+                            text={'Ir para o início'}
+                            type={ButtonTypes.Secondary}
+                            style={{
+                                marginTop: '15px'
+                            }}
+                        />
                     </div>
                 )}
             </div>

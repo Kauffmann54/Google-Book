@@ -19,7 +19,7 @@ import RomanceImage from '../../../assets/categoriesIcons/Romance.png';
 import { HomeCategoryModel } from '../model/HomeCategoryModel';
 import CategoryComponent from '../../../components/categoryComponent/CategoryComponent';
 import Checkbox from '@mui/material/Checkbox';
-import { FormGroup, FormControlLabel, Pagination } from '@mui/material';
+import { FormGroup, FormControlLabel, Pagination, SwipeableDrawer } from '@mui/material';
 import ComboBox, { ComboBoxValueProps } from '../../../components/comboBox/ComboBox';
 import BookComponent from '../../../components/bookComponent/BookComponent';
 import { useTypedSelector } from '../../../hooks/useTypeSelector.js';
@@ -34,6 +34,8 @@ import Lottie from 'react-lottie';
 import booksSearchJson from '../../../assets/lotties/books-search.json';
 import UseWindowDimensions from '../../../utils/UseWindowDimensions';
 import ISO6391 from 'iso-639-1';
+import { useLocation } from 'react-router-dom';
+import { VscClose } from 'react-icons/vsc';
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
@@ -89,6 +91,14 @@ export default function HomeScreen() {
   const [totalPages, setTotalPages] = useState<number>(0);
   const [error, setError] = useState<ErrorResponseModel>();
   const [showError, setShowError] = useState<boolean>(false);
+  const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
+
+  const drawerBleeding = 56;
+  const container = window !== undefined ? () => window.document.body : undefined;
+  const { search } = useLocation();
+
+  const query = new URLSearchParams(search);
+  const category = query.get('category');
 
   const booksQuery = useTypedSelector(state => state.booksQuery);
   const { data: booksQueryData, loading: booksQueryLoading, error: booksQueryError } = booksQuery;
@@ -110,20 +120,24 @@ export default function HomeScreen() {
   }, []);
 
   useEffect(() => {
-    if (searchBarText !== '' || (categorySelected)) {
-      dispatch(fetchBooksByQuery(searchBarText, (formatNumber(maxResultsSelected.value) * page + 1), categorySelected?.type, isDownloadAvailable, filterVolumeByTypeAndPriceSelected?.value, maxResultsSelected.value, printTypeSelected.value, orderBySelected.value, languageSelected?.value));
+    if (searchBarText !== '' || (categorySelected || category)) {
+      dispatch(fetchBooksByQuery(searchBarText, (formatNumber(maxResultsSelected.value) * page + 1), categorySelected ? categorySelected.type : category?.split('/')[0].trim() || '', isDownloadAvailable, filterVolumeByTypeAndPriceSelected?.value, maxResultsSelected.value, printTypeSelected.value, orderBySelected.value, languageSelected?.value));
     }
-  }, [dispatch, searchBarText, page, categorySelected, isDownloadAvailable, filterVolumeByTypeAndPriceSelected, maxResultsSelected, printTypeSelected, orderBySelected, languageSelected]);
+  }, [dispatch, searchBarText, page, categorySelected, isDownloadAvailable, filterVolumeByTypeAndPriceSelected, maxResultsSelected, printTypeSelected, orderBySelected, languageSelected, category]);
 
   useEffect(() => {
-    if (categorySelected && !searchBarTextChange) {
+    setPage(0);
+  }, [searchBarText, categorySelected, isDownloadAvailable, filterVolumeByTypeAndPriceSelected, maxResultsSelected, printTypeSelected, orderBySelected, languageSelected, category]);
+
+  useEffect(() => {
+    if ((category || categorySelected) && !searchBarTextChange) {
       setSearchBarText('');
     }
-  }, [categorySelected, searchBarTextChange]);
+  }, [categorySelected, searchBarTextChange, category]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    setTotalPages(booksQueryData ? (booksQueryData.totalItems/formatNumber(maxResultsSelected.value)) : 0);
+    setTotalPages(booksQueryData ? (Math.round(booksQueryData.totalItems/formatNumber(maxResultsSelected.value))) : 0);
   }, [booksQueryData, maxResultsSelected]);
 
   useEffect(() => {
@@ -141,6 +155,19 @@ export default function HomeScreen() {
     });
     setLanguagesList(list);
   }, []);
+
+  const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      ((event as React.KeyboardEvent).key === 'Tab' ||
+        (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
+
+    setFilterIsOpen(open);
+  };
 
   return (
     <PageAnimation>
@@ -224,14 +251,21 @@ export default function HomeScreen() {
                             setSearchBarText(text);
                           }} />
                         </div>
-                        <div className='home-screen-books-order-combobox'>
-                          <ComboBox 
-                              options={orderByList[0]} 
-                              value={orderBySelected?.value}
-                              placeholder='Ordenar por'
-                              onChange={(value: ComboBoxValueProps) => {
-                                setOrderBySelected(value);
-                              }} />
+                        <div className='home-screen-books-buttons-filter'>
+                          <div className='home-screen-books-button-filter-mobile' onClick={() => {
+                                setFilterIsOpen(true);
+                              }} >
+                              <label className='buttonText primaryColor home-screen-books-button-filter-mobile-label'>Filtrar</label>
+                          </div>
+                          <div className='home-screen-books-order-combobox'>
+                            <ComboBox 
+                                options={orderByList[0]} 
+                                value={orderBySelected?.value}
+                                placeholder='Ordenar por'
+                                onChange={(value: ComboBoxValueProps) => {
+                                  setOrderBySelected(value);
+                                }} />
+                          </div>
                         </div>
                       </div>
                       <div className='home-screen-books-list'>
@@ -294,6 +328,7 @@ export default function HomeScreen() {
                           count={totalPages}
                           page={page}
                           color='primary'
+                          size={`${isMobile ? 'small' : 'large'}`}
                           onChange={(e, page) => setPage(page)} />
                       )}
                   </div>
@@ -303,6 +338,68 @@ export default function HomeScreen() {
 
             </div>
         </div>
+
+        <SwipeableDrawer
+        container={container}
+        anchor="bottom"
+        open={filterIsOpen}
+        onClose={toggleDrawer(false)}
+        onOpen={toggleDrawer(true)}
+        swipeAreaWidth={drawerBleeding}
+        disableSwipeToOpen={false}
+        ModalProps={{
+          keepMounted: true,
+        }}
+      >
+        {/* Filters */}
+        <div className='home-screen-filters-mobile-background'>
+            <div className='home-screen-filters-mobile-header'>
+              <label className='title2Bold'>Filtros</label>
+              <VscClose className='title1Bold' onClick={() => {setFilterIsOpen(false)}} />
+            </div>
+            <div className='home-screen-filters-mobile-divider' />
+            <FormGroup>
+                <FormControlLabel control={<Checkbox value={isDownloadAvailable} onChange={e => setIsDownloadAvailable(e.target.checked)} />} label="Baixável" />
+                <div className='home-screen-filters-mobile-book-type'>
+                  <ComboBox 
+                    options={filtersVolumeByTypeAndPriceList[0]} 
+                    value={filterVolumeByTypeAndPriceSelected?.value}
+                    placeholder='Tipo de livro'
+                    onChange={(value: ComboBoxValueProps) => {
+                      if (value.value === '') {
+                        setFilterVolumeByTypeAndPriceSelected(undefined);
+                      } else {
+                        setFilterVolumeByTypeAndPriceSelected(value);
+                      }
+                    }} />
+                </div>
+                <label className='subtitle3Bold'>Resultados por página:</label>
+                <ComboBox 
+                    options={maxResultsList[0]} 
+                    value={maxResultsSelected?.value}
+                    placeholder='Resultados por página'
+                    onChange={(value: ComboBoxValueProps) => {
+                      setMaxResultsSelected(value);
+                    }} />
+                <label className='subtitle3Bold home-screen-filters-mobile-file-type'>Tipo de arquivo:</label>
+                <ComboBox 
+                    options={printTypelist[0]} 
+                    value={printTypeSelected?.value}
+                    onChange={(value: ComboBoxValueProps) => {
+                      setPrintTypeSelected(value);
+                    }} />
+                <div className='home-screen-filters-combobox-language'>
+                  <ComboBox 
+                      options={languagesList} 
+                      placeholder='Selecionar idioma'
+                      value={languageSelected?.value}
+                      onChange={(value: ComboBoxValueProps) => {
+                        setLanguageSelected(value);
+                      }} />
+                </div>
+            </FormGroup>
+          </div>
+      </SwipeableDrawer>
 
         <AlertModal
           error={error}

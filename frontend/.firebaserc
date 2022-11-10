@@ -1,14 +1,14 @@
 {
   "projects": {
-    "default": "google-book",
-    "dev": "google-book",
-    "prod": "google-book"
+    "default": "book-f4dce",
+    "dev": "book-f4dce",
+    "prod": "book-f4dce"
   },
   "targets": {
-    "google-book": {
+    "book-f4dce": {
       "hosting": {
-        "google-book-site": [
-          "google-book-site"
+        "book-site": [
+          "book-site"
         ]
       }
     }

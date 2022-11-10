@@ -64,9 +64,9 @@
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build:dev": "npm run cleanBuild && set \"GENERATE_SOURCEMAP=false\" && firebase deploy -f --project google-book --only hosting:google-book-site",
-    "build:prod": "npm run cleanBuild && set \"GENERATE_SOURCEMAP=false\" && firebase deploy -f --project google-book --only hosting:google-book-site",
-    "build:staging": "npm run cleanBuild && set \"GENERATE_SOURCEMAP=false\" && firebase deploy -f --project google-book --only hosting:google-book-site"
+    "build:dev": "npm run cleanBuild && set \"GENERATE_SOURCEMAP=false\" && env-cmd -f .env.development npm run build && firebase deploy -f --project book-f4dce --only hosting:book-site",
+    "build:prod": "npm run cleanBuild && set \"GENERATE_SOURCEMAP=false\" && env-cmd -f .env.development npm run build && firebase deploy -f --project book-f4dce --only hosting:book-site",
+    "build:staging": "npm run cleanBuild && set \"GENERATE_SOURCEMAP=false\" && env-cmd -f .env.development npm run build && firebase deploy -f --project book-f4dce --only hosting:book-site"
   },
   "eslintConfig": {
     "extends": [

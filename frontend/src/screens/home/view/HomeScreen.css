@@ -9,7 +9,7 @@
 .home-screen-content {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: stretch;
     min-height: 65vh;
     margin-top: 33px;
     margin-left: 10px;
@@ -102,6 +102,10 @@
     width: 200px;
 }
 
+.home-screen-books-button-filter-mobile {
+    display: none;
+}
+
 .home-screen-books-list {
     display: flex;
     flex-wrap: wrap;
@@ -131,5 +135,107 @@
 @media (min-width: 1500px) {
     .home-screen-background {
         max-width: 1500px;
+    }
+}
+
+@media (max-width: 768px) {
+    .home-screen-background {
+        width: stretch;
+        max-width: stretch;
+    }
+
+    /* Content body */
+    .home-screen-content-body {
+        flex-direction: column;
+    }
+
+    /* Categories */
+    .home-screen-categories {
+        width: 86vw;
+    }
+
+    .home-screen-filters {
+        display: none;
+    }
+
+    .home-screen-books-order-top {
+        flex-direction: column;
+    }
+
+    .home-screen-books-order-search-bar {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .home-screen-books-order-combobox {
+        width: stretch;
+        margin: 10px;
+    }
+
+    /* Books List body */
+    .home-screen-books-body {
+        margin-left: 0px;
+    }
+
+    .home-screen-books-buttons-filter {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: stretch;
+    }
+
+    .home-screen-books-button-filter-mobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: stretch;
+        margin-left: 10px;
+        margin-right: 5px;
+        border-radius: 10px;
+        border: 1px solid #0088ff;
+        padding: 14px 10px;
+        cursor: pointer;
+    }
+
+    .home-screen-books-button-filter-mobile-label {
+        cursor: pointer;
+    }
+
+    .home-screen-books-list {
+        width: stretch;
+    }
+
+    /* Filter Mobile */
+    .home-screen-filters-mobile-background {
+        background-color: white;
+        height: 80vh;
+        width: stretch;
+        padding: 12px 10px 10px 10px;
+    }
+
+    .home-screen-filters-mobile-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .home-screen-filters-mobile-divider {
+        border-bottom: 1px solid #E0E0E0;
+        width: stretch;
+        margin-top: 10px;
+    }
+
+    .home-screen-filters-mobile-book-type {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .home-screen-filters-mobile-file-type {
+        margin-top: 10px;
+    }
+
+    .home-screen-filters-mobile-combobox-language {
+        margin-top: 10px;
     }
 }

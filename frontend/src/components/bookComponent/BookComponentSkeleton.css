@@ -46,3 +46,15 @@
     border-radius: 10px;
     width: stretch;
 }
+
+@media (max-width: 768px) {
+    .book-component-background-skeleton {
+        width: 84vw;
+        height: 420px;
+    }
+
+    .book-component-image-skeleton {
+        height: 260px;
+        width: 200px;
+    }
+}
