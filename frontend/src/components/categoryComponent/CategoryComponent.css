@@ -1,0 +1,30 @@
+.category-item-background {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.category-item-background:hover {
+    transform: scale(1.1);
+}
+
+.category-item-image {
+    height: 40px;
+    width: 40px;
+    object-fit: contain;
+    margin-right: 10px;
+}
+
+.category-item-label {
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
