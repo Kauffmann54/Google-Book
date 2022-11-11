@@ -51,7 +51,7 @@
 ## Installation
 
 To be able to start this project, it is necessary to install the dependencies
-### `npm install`
+### `cd frontend && npm install --legacy-peer-deps`
 
 ## Run project
 
