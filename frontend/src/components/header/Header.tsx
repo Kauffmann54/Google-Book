@@ -46,7 +46,9 @@ export default function Header(props: HeaderProps) {
                 <button className={`primaryColor header-button-item${headerButtonTypeSelected === HeaderButtonType.Home ? '-selected' : ''}`} onClick={() => navigate('/')}>Home</button>
                 <div className={`header-favorites-background`} onClick={() => navigate('/favorites')}>
                     <Badge badgeContent={favoriteListData ? favoriteListData.totalItems : 0} color="error" max={999}>
-                        <button className={`primaryColor header-button-item${headerButtonTypeSelected === HeaderButtonType.Favorites ? '-selected' : ''}`}>Favoritos</button>
+                        <button style={{
+                                marginRight: '-3px',
+                            }} className={`primaryColor header-button-item${headerButtonTypeSelected === HeaderButtonType.Favorites ? '-selected' : ''}`}>Favoritos</button>
                     </Badge>
                 </div>
             </div>
