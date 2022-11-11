@@ -43,7 +43,6 @@ export default function BookMeta(props: BookMetaProps) {
         const twitterSite = document.querySelector('meta[name="twitter:site"]');
         const twitterTitle = document.querySelector('meta[name="twitter:title"]');
         const twitterDescription = document.querySelector('meta[name="twitter:description"]');
-        const twitterImage = document.querySelector('meta[name="twitter:image"]');
         
         if (metaTag.type === 'meta') {
             if (metaTag.props.name === process.env.REACT_APP_META_BOOK_TRACKING_TITLE) {

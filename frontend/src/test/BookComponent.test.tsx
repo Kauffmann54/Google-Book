@@ -5,9 +5,13 @@ import { BookModel } from '../backend/models/book/bookResponseModel';
 import { Provider } from 'react-redux';
 import store from '../hooks/store';
 import { BrowserRouter } from 'react-router-dom';
+import axios from "axios";
+import MockAdapter from 'axios-mock-adapter';
 
 describe('Book component testing', function() {
-  it('Test title', function() {
+  it('Test if title is equal mock', async function() {
+    process.env.REACT_APP_BOOKS_API_URL = 'https://www.googleapis.com/books';
+
     const book: BookModel = {
         id: 'ZDgQCwAAQBAJ',
         volumeInfo: {
@@ -63,6 +67,10 @@ describe('Book component testing', function() {
         }
     }
 
+    const bookId = book.id;
+    var mock = new MockAdapter(axios);
+    mock.onGet(`${process.env.REACT_APP_BOOKS_API_URL}/v1/volumes/${bookId}`).reply(200, book);
+
     render(
         <Provider store={store}>
             <BrowserRouter>
@@ -71,8 +79,7 @@ describe('Book component testing', function() {
             </BrowserRouter>
         </Provider>
     );
-            
-    const title = screen.getByTestId('book-component-title');
-    expect(title).toHaveTextContent('Harry Potter e o Cálice de Fogo');
+           
+    expect(screen.getByTestId('book-component-title')).toHaveTextContent('Harry Potter e o Cálice de Fogo');
   });
 });

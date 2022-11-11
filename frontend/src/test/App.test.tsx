@@ -14,7 +14,7 @@ describe('App component testing', function() {
             </BrowserRouter>
         </Provider>
     );
-            
+           
     const header = screen.getByTestId('header-background');
     expect(header).toBeVisible();
   });

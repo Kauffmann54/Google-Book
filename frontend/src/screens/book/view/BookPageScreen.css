@@ -44,12 +44,13 @@
     height: 250px;
     object-fit: cover;
     margin-top: 15px;
+    margin-right: 15px;
 }
 
 .book-screen-details-content-texts {
     display: flex;
     flex-direction: column;
-    width: 83%;
+    width: 81%;
 }
 
 .book-screen-details-content-top {
@@ -89,7 +90,7 @@
 }
 
 .book-screen-details-description {
-    margin: 15px 10px;
+    margin: 15px 0px 15px 10px;
     font-size: 16px;
     font-weight: 300;
     text-align: justify;
@@ -109,7 +110,7 @@
     display: flex;
     flex-direction: row;
     overflow: auto;
-    width: 97%;
+    width: 98%;
     border-radius: 10px;
     padding: 10px 0px;
     margin: 0px 10px;
@@ -250,5 +251,15 @@
     /* Books Recommended */
     .book-screen-books-recommended-list {
         width: 92vw;
+    }
+}
+
+@media (min-width: 1500px) {
+    .book-screen-background {
+        max-width: 1500px;
+    }
+
+    .book-screen-details-content-texts {
+        width: 87%;
     }
 }

@@ -36,6 +36,7 @@ import UseWindowDimensions from '../../../utils/UseWindowDimensions';
 import ISO6391 from 'iso-639-1';
 import { useLocation } from 'react-router-dom';
 import { VscClose } from 'react-icons/vsc';
+import BookMeta from '../../../utils/BookMeta';
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
@@ -87,7 +88,7 @@ export default function HomeScreen() {
   const [languageSelected, setLanguageSelected] = useState<ComboBoxValueProps>();
   const [searchBarText, setSearchBarText] = useState<string>('ReactJS');
   const [searchBarTextChange, setSearchBarTextChange] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [error, setError] = useState<ErrorResponseModel>();
   const [showError, setShowError] = useState<boolean>(false);
@@ -121,12 +122,12 @@ export default function HomeScreen() {
 
   useEffect(() => {
     if (searchBarText !== '' || (categorySelected || category)) {
-      dispatch(fetchBooksByQuery(searchBarText, (formatNumber(maxResultsSelected.value) * page + 1), categorySelected ? categorySelected.type : category?.split('/')[0].trim() || '', isDownloadAvailable, filterVolumeByTypeAndPriceSelected?.value, maxResultsSelected.value, printTypeSelected.value, orderBySelected.value, languageSelected?.value));
+      dispatch(fetchBooksByQuery(searchBarText, (formatNumber(maxResultsSelected.value) * (page - 1)), categorySelected ? categorySelected.type : category?.split('/')[0].trim() || '', isDownloadAvailable, filterVolumeByTypeAndPriceSelected?.value, maxResultsSelected.value, printTypeSelected.value, orderBySelected.value, languageSelected?.value));
     }
   }, [dispatch, searchBarText, page, categorySelected, isDownloadAvailable, filterVolumeByTypeAndPriceSelected, maxResultsSelected, printTypeSelected, orderBySelected, languageSelected, category]);
 
   useEffect(() => {
-    setPage(0);
+    setPage(1);
   }, [searchBarText, categorySelected, isDownloadAvailable, filterVolumeByTypeAndPriceSelected, maxResultsSelected, printTypeSelected, orderBySelected, languageSelected, category]);
 
   useEffect(() => {
@@ -171,6 +172,25 @@ export default function HomeScreen() {
 
   return (
     <PageAnimation>
+      <BookMeta>
+            <title>{`Home ${process.env.REACT_APP_META_TITLE}`}</title>
+            <meta name="description" content={process.env.REACT_APP_META_DESCRIPTION} />
+            <meta name="keywords" content={`${process.env.REACT_APP_META_KEYWORDS}, home, home screen`} />
+            <script type="application/ld+json">
+                {`
+                    {
+                        "@context": "http://schema.org",
+                        "@type": "WebSite",
+                        "name": "Home ${process.env.REACT_APP_META_TITLE}",
+                        "alternateName": "Google Book",
+                        "description": "${process.env.REACT_APP_META_DESCRIPTION}",
+                        "url": "${process.env.REACT_APP_BOOK_SITE_URL}/}",
+                    }
+                    `
+                }
+            </script>
+        </BookMeta>
+        
         <div className='home-screen-background'>
             <div className='home-screen-content'>
                 {/* Categories */}
