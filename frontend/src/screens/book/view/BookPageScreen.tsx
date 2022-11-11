@@ -11,6 +11,10 @@ import { formatterDate, formatterMoney, removeHTMLTags } from '../../../utils/Fo
 import { motion } from 'framer-motion';
 import BookComponent from '../../../components/bookComponent/BookComponent';
 import { BookActionTypes } from '../../../backend/constants/bookConstants';
+import Lottie from 'react-lottie';
+import booksSearchJson from '../../../assets/lotties/books-search.json';
+import bookNotFoundJson from '../../../assets/lotties/book-not-found.json';
+import UseWindowDimensions from '../../../utils/UseWindowDimensions';
 
 export default function BookPageScreen() {
     const dispatch = useDispatch();
@@ -18,10 +22,31 @@ export default function BookPageScreen() {
     const { id } = useParams();
 
     const book = useTypedSelector(state => state.book);
-    const { data: bookData, loading: bookLoading, error: bookError } = book;
+    const { data: bookData, loading: bookLoading } = book;
 
     const booksQuery = useTypedSelector(state => state.booksQuery);
-    const { data: booksQueryData, loading: booksQueryLoading, error: booksQueryError } = booksQuery;
+    const { data: booksQueryData} = booksQuery;
+
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: booksSearchJson,
+        rendererSettings: {
+          preserveAspectRatio: "xMidYMid slice"
+        },
+    };
+
+    const defaultBookNotFoundOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: bookNotFoundJson,
+        rendererSettings: {
+          preserveAspectRatio: "xMidYMid slice"
+        },
+    };
+
+    const { width } = UseWindowDimensions();
+    const isMobile = width <= 768;
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -81,7 +106,7 @@ export default function BookPageScreen() {
                                     )}
                                 </div>
                             </div>
-                            <label className='book-screen-details-description'>{removeHTMLTags(bookData.volumeInfo.description)}</label>
+                            <label className='book-screen-details-description'>{removeHTMLTags(bookData.volumeInfo.description || '')}</label>
                             <div className='book-screen-details-language'>
                                 <label className='subtitle2Bold'>Idioma:</label>
                                 <label className='subtitle2 book-screen-details-lable-language'>{bookData.volumeInfo.language}</label>
@@ -135,8 +160,37 @@ export default function BookPageScreen() {
                         </div>
                     </div>
                 </div>
+            ) : bookLoading ? (
+                <div>
+                    <Lottie options={defaultOptions}
+                        isClickToPauseDisabled={true}
+                        height={isMobile ? '200px' : '300px'}
+                        width={isMobile ? '300px' : '400px'}
+                        style={{
+                        marginTop: isMobile ? '80px' : '3%',
+                        }}
+                        />
+                </div>
             ) : (
-                <></>
+                <div className='book-screen-book-not-found-background'>
+                    <Lottie options={defaultBookNotFoundOptions}
+                        isClickToPauseDisabled={true}
+                        height={isMobile ? '200px' : '300px'}
+                        width={isMobile ? '300px' : '400px'}
+                        style={{
+                        marginTop: isMobile ? '80px' : '3%',
+                        }}
+                        />
+                    <label className='title2Bold secondaryTextLight'>Este livro não foi encontrado</label>
+                    <Button
+                        onClick={() => {navigate('/')}}
+                        text='Ir para o início'
+                        type={ButtonTypes.Secondary}
+                        style={{
+                            marginTop: '16px'
+                        }}
+                    />
+                </div>
             )}
 
             {/* Books Recommended */}

@@ -9,7 +9,7 @@ export interface BookModel {
     authors: string[];
     publisher?: string;
     publishedDate?: string;
-    description: string;
+    description?: string;
     industryIdentifiers?: {
       type: string;
       identifier: string;

@@ -65,6 +65,18 @@
     display: none;
 }
 
+.header-favorites-background {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.header-button-favorite {
+    margin-left: -5px;
+    padding-top: 2px;
+    padding-right: 3px;
+}
+
 @media (max-width: 768px) {
     .header-buttons {
         display: none;
@@ -83,5 +95,11 @@
         position: absolute;
         display: block;
         right: 10px;
+    }
+}
+
+@media (min-width: 1500px) {
+    .header-background-content {
+        max-width: 1500px;
     }
 }

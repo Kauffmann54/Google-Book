@@ -49,7 +49,7 @@
 .book-screen-details-content-texts {
     display: flex;
     flex-direction: column;
-    width: stretch;
+    width: 83%;
 }
 
 .book-screen-details-content-top {
@@ -67,7 +67,6 @@
 
 .book-screen-details-lable-authors {
     margin-left: 5px;
-    cursor: pointer;
 }
 
 .book-screen-details-lable-publisher {
@@ -110,7 +109,7 @@
     display: flex;
     flex-direction: row;
     overflow: auto;
-    width: 55vw;
+    width: 97%;
     border-radius: 10px;
     padding: 10px 0px;
     margin: 0px 10px;
@@ -147,6 +146,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 /* Product for sale */
@@ -198,11 +199,24 @@
     display: none;
 }
 
+/* Book not found */
+.book-screen-book-not-found-background {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 @media (max-width: 768px) {
 
     /* Book Details */
     .book-screen-details-content {
         flex-direction: column;
+    }
+
+    .book-screen-details-image {
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .book-screen-details-content-top {
@@ -214,7 +228,7 @@
     }
 
     .book-screen-details-categories {
-        width: 82vw;
+        width: 83vw;
     }
 
     /* Book Offers */
@@ -222,6 +236,10 @@
         flex-direction: column;
         align-items: flex-start;
         margin-left: 10px;
+    }
+
+    .book-screen-details-content-texts {
+        width: stretch;
     }
 
     .book-screen-details-book-for-sale-button-pdf {
