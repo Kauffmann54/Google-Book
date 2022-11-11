@@ -39,7 +39,7 @@ export default function Header(props: HeaderProps) {
     }, [location, dispatch]);
 
   return (
-    <div className='header-background'>
+    <div data-testid='header-background' className='header-background'>
         <div className='header-background-content'>
             <img src={logo} alt='Google Books Logo' className='header-logo' onClick={() => navigate('/')}/>
             <div className='header-buttons'>

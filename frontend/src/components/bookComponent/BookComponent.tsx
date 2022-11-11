@@ -31,8 +31,8 @@ export default function BookComponent(props: BookComponentProps) {
 
   return (
     <div className='book-component-background'>
-        <img src={props.book.volumeInfo.imageLinks ? props.book.volumeInfo.imageLinks.thumbnail : noBookImage} alt={props.book.volumeInfo.title} className={`${props.book.volumeInfo.imageLinks ? 'book-component-image' : 'book-component-no-image'}`} />
-        <label className='font-custom primaryTextLight book-component-title'>{props.book.volumeInfo.title}</label>
+        <img data-testid='book-component-image' src={props.book.volumeInfo.imageLinks ? props.book.volumeInfo.imageLinks.thumbnail : noBookImage} alt={props.book.volumeInfo.title} className={`${props.book.volumeInfo.imageLinks ? 'book-component-image' : 'book-component-no-image'}`} />
+        <label data-testid='book-component-title' className='font-custom primaryTextLight book-component-title'>{props.book.volumeInfo.title}</label>
         <div className='book-component-second-line'>
             <RatingComponent 
                 rating={props.book.volumeInfo.averageRating || 0} 

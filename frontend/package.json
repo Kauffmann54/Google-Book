@@ -14,10 +14,8 @@
     "@mui/material": "^5.5.3",
     "@mui/x-data-grid": "^5.8.0",
     "@mui/x-date-pickers": "^5.0.0-alpha.0",
-    "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
     "@types/jquery": "^3.5.10",
     "@types/jquery-mask-plugin": "^1.14.4",
     "@types/react": "^17.0.0",
@@ -35,6 +33,9 @@
     "google-auth-library": "^7.14.0",
     "gsap": "^3.8.0",
     "iso-639-1": "^2.1.15",
+    "jest": "^26.6.0",
+    "jest-canvas-mock": "^2.4.0",
+    "jest-dom": "^4.0.0",
     "jquery": "^3.6.0",
     "jquery-mask-plugin": "^1.14.16",
     "lottie-web": "^5.8.1",
@@ -62,7 +63,7 @@
     "cleanBuild": "rimraf ./build/*",
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "build:dev": "npm run cleanBuild && set \"GENERATE_SOURCEMAP=false\" && env-cmd -f .env.development npm run build && firebase deploy -f --project book-f4dce --only hosting:book-site",
     "build:prod": "npm run cleanBuild && set \"GENERATE_SOURCEMAP=false\" && env-cmd -f .env.development npm run build && firebase deploy -f --project book-f4dce --only hosting:book-site",
@@ -70,7 +71,8 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app"
+      "react-app",
+      "react-app/jest"
     ]
   },
   "browserslist": {
@@ -86,6 +88,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
     "@types/react-beautiful-dnd": "^13.1.2",
     "env-cmd": "^10.1.0"
   }

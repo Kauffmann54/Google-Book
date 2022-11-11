@@ -14,7 +14,7 @@ export enum ButtonTextAlign {
 }
 
 interface ButtonProps {
-    onClick: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+    onClick?: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
     type?: ButtonTypes,
     text: string,
     enabled?: boolean,
@@ -31,7 +31,9 @@ export default function Button(props: ButtonProps) {
     const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if ((props.enabled == null || props.enabled === true)) {
-            props.onClick(e)
+            if (props.onClick) {
+                props.onClick(e)
+            }
         }
     };
 

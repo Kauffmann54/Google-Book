@@ -200,7 +200,7 @@ export default function HomeScreen() {
                     <label className='title3Bold'>Filtros</label>
                     <div className='home-screen-filters-divider' />
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox value={isDownloadAvailable} onChange={e => setIsDownloadAvailable(e.target.checked)} />} label="Baixável" />
+                        <FormControlLabel control={<Checkbox data-testid='home-screen-filters-checkbox-download' value={isDownloadAvailable} onChange={e => setIsDownloadAvailable(e.target.checked)} />} label="Baixável" />
                         <div className='home-screen-filters-book-type'>
                           <ComboBox 
                             options={filtersVolumeByTypeAndPriceList[0]} 
