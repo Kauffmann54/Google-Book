@@ -145,7 +145,7 @@ describe('Book component testing', function() {
 });
 ```
 
-<img src="./assets/Tests.png" alt="Tests" style="zoom:60%; margin-left:0px; border-radius:15px;" />
+<img src="./assets/Tests.png" alt="Tests" style="zoom:60%; width:400px; margin-left:0px; border-radius:15px;" />
 
 ## Screens
 
@@ -206,7 +206,7 @@ On each book's detail page, you can see:
 
 #### Mobile:
 
-<img src="./assets/BookScreenMobile.png" alt="Book screen Mobile" style="zoom:30%; margin-left:10px; border:1px solid gray; border-radius:15px;"  />
+<img src="./assets/BookScreenMobile.png" alt="Book screen Mobile" style="zoom:30%; width:200px; margin-left:10px; border:1px solid gray; border-radius:15px;"  />
 
 
 
@@ -220,5 +220,5 @@ In the favorites screen, all the books that the user has marked as favorites app
 
 #### Mobile:
 
-<img src="./assets/FavoritesScreenMobile.png" alt="Favorites screen Mobile" style="zoom:30%; margin-left:10px; border:1px solid gray; border-radius:15px;"  />
+<img src="./assets/FavoritesScreenMobile.png" alt="Favorites screen Mobile" style="zoom:10%; width:200px; margin-left:10px; border:1px solid gray; border-radius:15px;"  />
 
